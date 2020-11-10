@@ -1,11 +1,11 @@
 import React, { useEffect, useState} from 'react'
 import { Link, useParams } from 'react-router-dom'
 import { Dimmer, Loader, Segment, Image, Header } from 'semantic-ui-react'
-import "./PostDetail.css"
+import "./PostDetailAdmin.css"
 
 
 
-export default function PostDetail() {
+export default function AdminPD() {
     const [post, setPost] = useState(null)
     const [comments, setComments] = useState([])
     const [author, setAuthor ] = useState("")
@@ -33,7 +33,6 @@ export default function PostDetail() {
         .then(data =>{
             
             setComments(comments.concat(data));
-            console.log(data)
             
             
             setAuthor("")
@@ -55,7 +54,7 @@ export default function PostDetail() {
             .then(data =>{
                 setComments(data)
             })
-    }, [postId])
+    }, [])
 
     if (!post) {
         return (

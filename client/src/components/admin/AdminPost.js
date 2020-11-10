@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom'
 import {Button, Container, Form, Header, Modal, Segment} from "semantic-ui-react"
 
 
-export default function Posts() {
+export default function AdminPosts() {
     const [ formOpen, setFormOpen] = useState(false)
     const [ posts, setPosts ] = useState([])
     const [title, setTitle ] = useState("")
@@ -44,18 +44,33 @@ export default function Posts() {
             setContent("")
         })
     }
+    const deletePost = (postId) =>{
+        
+        fetch(`/api/v1/posts/${postId}`,{
+            method: "DELETE"
+        })
+        .then(res=> res.json())
+        .then(data =>{
+            fetch("/api/v1/posts")
+            .then(res=> res.json())
+            .then(data =>{
+                setPosts(data)
+            })
+        })
 
+    }
     return (
         <div>
-            <Header>Posts</Header>
+            <Header>Admin Posts</Header>
             {posts.map((post)=>{
                 return <div key={post.id}>
                     <Segment>
                         <Header as="h2">{post.title}</Header>
                         <Header as="h2">{post.author}</Header>
                         <p>{post.content.slice(0, 200)}</p>
+                        <button onClick={ () => deletePost(post.id)}>Delete</button>
                         
-                            <Link to={`/post/${post.id}`}>Read More</Link>
+                            <Link to={`/post/admin/${post.id}`}>Read More</Link>
 
                         
 
